@@ -689,18 +689,33 @@ function RecordAnswerSection({ mockInterviewQuestion, activeQuestionIndex, inter
         // }
          
         // Determine confidence message based on emotions
-const maxEmotion = Object.entries(detections[0].expressions).reduce(
-  (max, curr) => (curr[1] > max[1] ? curr : max)
+// const maxEmotion = Object.entries(detections[0].expressions).reduce(
+//   (max, curr) => (curr[1] > max[1] ? curr : max)
+// );
+
+// const negativeEmotions = ["sad", "fearful", "angry", "disgusted", "surprised"];
+
+// if (maxEmotion[0] === "happy" || maxEmotion[0] === "neutral") {
+//   setConfidenceMsg("You look confident!");
+// } else if (negativeEmotions.includes(maxEmotion[0])) {
+//   setConfidenceMsg("You seem a bit nervous."); // Always show nervous message for negative emotions
+// } else {
+//   setConfidenceMsg(""); // Default case (shouldn't happen often)
+// }
+const emotionsObj = detections[0].expressions;
+
+// Define positive emotions
+const positiveEmotions = ["happy", "neutral"];
+
+// Check if any non-positive emotion has a significant presence
+const hasOtherEmotions = Object.entries(emotionsObj).some(
+  ([emotion, value]) => !positiveEmotions.includes(emotion) && value > 0.001 // Ensuring it's detected properly
 );
 
-const negativeEmotions = ["sad", "fearful", "angry", "disgusted", "surprised"];
-
-if (maxEmotion[0] === "happy" || maxEmotion[0] === "neutral") {
-  setConfidenceMsg("You look confident!");
-} else if (negativeEmotions.includes(maxEmotion[0])) {
-  setConfidenceMsg("You seem a bit nervous."); // Always show nervous message for negative emotions
+if (hasOtherEmotions) {
+  setConfidenceMsg("You seem a bit nervous.");
 } else {
-  setConfidenceMsg(""); // Default case (shouldn't happen often)
+  setConfidenceMsg("You look confident!");
 }
 
 
@@ -744,7 +759,7 @@ if (maxEmotion[0] === "happy" || maxEmotion[0] === "neutral") {
   )}
 </div>
 
-      <div className="relative flex my-9 w-[420px] h-[320px] justify-center items-center bg-gray-900 rounded-lg p-1">
+      {/* <div className="relative flex my-9 w-[420px] h-[320px] justify-center items-center bg-gray-900 rounded-lg p-1">
         {webcamEnabled ? (
           <>
             <Webcam
@@ -759,7 +774,10 @@ if (maxEmotion[0] === "happy" || maxEmotion[0] === "neutral") {
             />
             <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full" />
             {emotions && (
-              <div className="absolute top-5 right-[-180px] bg-[#4845D2] text-white p-3 rounded-lg shadow-lg">
+              
+              // <div className="absolute top-5 right-[-180px] bg-[#4845D2] text-white p-3 rounded-lg shadow-lg">
+              <div className="absolute top-5 right-0 sm:right-2 md:right-[-180px] bg-[#4845D2] text-white p-3 rounded-lg shadow-lg w-[140px] sm:w-[160px] md:w-auto">
+
                 <h2 className="font-bold text-white">Detected Emotions</h2>
                 {Object.entries(emotions).map(([emotion, value]) => (
                   <p key={emotion} className="text-sm">{emotion}: {(value * 100).toFixed(1)}%</p>
@@ -776,7 +794,42 @@ if (maxEmotion[0] === "happy" || maxEmotion[0] === "neutral") {
             priority
           />
         )}
+      </div> */}
+
+<div className="relative flex my-9 w-[420px] h-[320px] justify-center items-center bg-gray-900 rounded-lg p-1 sm:flex-row flex-col">
+  {webcamEnabled ? (
+    <>
+      {/* Webcam - moves left on small screens */}
+      <div className="relative w-full sm:w-[100%] h-[220px] sm:h-[300px] flex justify-center items-center">
+        <Webcam
+          ref={webcamRef}
+          mirrored={true}
+          className="absolute w-full h-full z-10"
+        />
+        <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full" />
       </div>
+
+      {/* Emotion detection box - shifts right on small screens, but unchanged on medium & large */}
+      {emotions && (
+        <div className="absolute top-5 right-0 sm:right-[-180px] bg-[#4845D2] text-white p-3 rounded-lg shadow-lg w-[140px] sm:w-[160px] md:w-auto">
+          <h2 className="font-bold text-white">Detected Emotions</h2>
+          {Object.entries(emotions).map(([emotion, value]) => (
+            <p key={emotion} className="text-sm">{emotion}: {(value * 100).toFixed(1)}%</p>
+          ))}
+        </div>
+      )}
+    </>
+  ) : (
+    <Image
+      src={"/webcam.png"}
+      width={200}
+      height={200}
+      alt="webcam-icon"
+      priority
+    />
+  )}
+</div>
+
 
       {/* <Button
         disabled={loading}
