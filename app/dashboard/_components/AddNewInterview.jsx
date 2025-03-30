@@ -98,7 +98,7 @@ function AddNewInterview() {
         className='p-10 border rounded-lg bg-blue-50
         hover:scale-105 hover:shadow-md cursor-pointer transition-all'
         onClick={()=>setOpenDailog(true)} >
-        <h2 className="text-lg text-center">Start General Interview</h2>
+        <h2 className="text-lg text-center">General Interview Practice</h2>
       </div>
       <Dialog open={openDailog}>  
         <DialogContent className="max-w-xl">

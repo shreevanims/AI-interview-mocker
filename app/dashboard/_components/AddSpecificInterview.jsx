@@ -98,7 +98,7 @@ function AddSpecificInterview() {
         className='p-10 border rounded-lg bg-blue-50
         hover:scale-105 hover:shadow-md cursor-pointer transition-all'
         onClick={()=>setOpenDailog(true)} >
-        <h2 className="text-lg text-center">Start Area-Specific Practice Interview</h2>
+        <h2 className="text-lg text-center">Area-Specific Interview Practice</h2>
       </div>
       <Dialog open={openDailog}>  
         <DialogContent className="max-w-xl">
