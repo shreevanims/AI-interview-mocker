@@ -103,7 +103,7 @@ function AddSpecificInterview() {
       <Dialog open={openDailog}>  
         <DialogContent className="max-w-xl">
           <DialogHeader>
-            <DialogTitle className='text-2xl'>Tell us more about the domain role you're practicing.</DialogTitle>
+            <DialogTitle className='text-2xl'>Tell us more about the domain you're practicing.</DialogTitle>
             <DialogDescription className="text-md text-gray-500">
               Add the domain and difficulty level you are preparing for.
             </DialogDescription>
