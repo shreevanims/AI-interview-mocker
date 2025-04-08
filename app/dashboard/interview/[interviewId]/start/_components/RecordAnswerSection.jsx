@@ -729,7 +729,7 @@ if (hasOtherEmotions) {
 
   useEffect(() => {
     if (webcamEnabled) {
-      const interval = setInterval(detectFace, 1000);
+      const interval = setInterval(detectFace, 3000);
       return () => clearInterval(interval);
     }
   }, [webcamEnabled]);
